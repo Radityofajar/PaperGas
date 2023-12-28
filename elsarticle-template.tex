@@ -122,7 +122,7 @@
 \ead{idabaguskrishnayogautama@gmail.com}
 
 \author{Khairi Hindriyandhito}
-\ead{khairihindri@gmail.com}
+\ead{khairi@kookmin.ac.kr}
 
 \author{Yeong Min Jang\corref{cor1}}
 \ead{yjang@kookmin.ac.kr}
@@ -153,29 +153,13 @@ Anomaly detection \sep Large Language Models \sep ConvLSTM-DT \sep Human-underst
 
 %% main text
 \section{Introduction}\label{sec1}
-In recent years, the rapid increase in data-driven applications and the growing complexity of modern systems have highlighted the critical significance of anomaly detection. Anomalies, often indicative of potentially harmful behavior within systems, can have long-term effects and wide-ranging consequences in various domains, such as industrial operations. Traditional anomaly detection methods, while effective to some extent, often heavily rely on expert analysis, making them resource-intensive and susceptible to human bias. This dependency on expert input can result in scalability, reliability, and consistency challenges within anomaly detection systems[1].
+The increasing complexity of modern IoT systems and data-driven applications highlights the critical importance of anomaly detection. While traditional methods have their merits, their heavy reliance on expert analysis poses scalability challenges and is susceptible to human bias. This becomes even more pronounced when anomalies are multi-dimensional, defying easy identification by established patterns. If left unaddressed, these complexities can result in numerous false alarms, undermining the effectiveness of detection systems.
 
-Furthermore, traditional anomaly detection methods based on statistical and machine learning approaches exhibit limitations, particularly when handling time-series data from multiple sensors. Anomalies in this context may be multi-dimensional and not easily characterized by conventional patterns. Consequently, traditional approaches can produce a significant number of false alarms, compromising the effectiveness and trustworthiness of anomaly detection systems[2].
+In the realm of Indoor Air Quality (IAQ) error management, pinpointing the reasons behind an inaccurate reading is paramount. When an IAQ monitoring system signals poor air quality indoors, users seek insight into the key attributes or factors influencing this determination. Conducting a sensitivity analysis becomes essential for identifying potential adjustments, such as tweaking sensor placement or considering environmental factors like ventilation. However, certain IAQ-influencing factors, such as external pollutants or building design, may lie beyond control. Hence, a robust error management system is crucial for elucidating the decision-making process, offering insights into the rationale behind specific air quality assessments, and proposing actionable steps for improvement. This is particularly pertinent for ensuring the precision of IAQ data interpretation and guiding effective corrective measures.
 
-In response to these challenges, this study aims to contribute to the field of anomaly detection by proposing a hybrid approach that harnesses the strength of prediction-based detector algorithms and the capabilities of Large Language Models (LLMs). This work centers on monitoring and detecting anomalies in air quality data collected from various sensors, including temperature, humidity, PM (Particulate Matter), and CO2 levels, all situated within a single indoor room environment. The ability to predict and detect anomalies in this air quality data is of paramount importance, given its profound implications for human health, particularly for those occupying the room.
-
-The proposed hybrid approach combines Convolutional Long Short-Term Memory with non-parametric dynamic thresholding (ConvLSTM-DT) for prediction-based anomaly detection and utilizes fine-tuned GPT-4 for LLM-based explainability. This hybrid approach is essential to address the aforementioned limitations and enhance the interpretability and adaptability of anomaly detection models. It not only facilitates anomaly detection across a variety of sensors but also provides human-understandable explanations and potential solutions for addressing anomaly situations. This makes it a powerful tool for real-world implementation where swift decision-making is imperative.
+To address these challenges, this research introduces a hybrid approach that integrates prediction-based detector algorithms with the capabilities of Large Language Models (LLMs). Focusing on anomalies in air data such as temperature, humidity, and PM levels is crucial for minimizing potential health risks. By combining Convolutional Long Short-Term Memory with non-parametric dynamic thresholding for prediction-based anomaly detection and utilizing fine-tuned GPT-4 for LLM to generate explanations, the model enhances interpretability, facilitates quick decision-making, and ensures adaptability. This innovative method seeks to offer a comprehensive solution for robust anomaly detection in complex IoT systems, particularly in contexts like IAQ monitoring, where accuracy and actionable insights are paramount.
 
 \section{Literature Review}\label{sec2}
-%% added tapor
-Time series anomalies can be classified into five categories: global, contextual, seasonal, trends, and shapelet anomalies. Scientists are actively investigating the application of deep learning architectures for anomaly detection because of their capacity to represent data interconnections, especially in intricate structures. There are two common methods for detecting anomalies: prediction-based approaches and reconstruction-based approaches.
-
-Malhotra et al. proposed LSTM-AD, a model that incorporates long-term memory and can detect anomalies without the need for labeled training data or unsupervised learning. Chauhan et al. introduced DeepLSTM, a method that utilizes a layered LSTM recurrent network to forecast error vectors using multivariate Gaussian distributions. Hundmand et al. developed an advanced method called LSTM-NDT for anomaly detection. This methodology utilizes non-parametric, dynamic, and unsupervised thresholding to evaluate mistakes. By combining several methodologies, LSTM-NDT achieves exceptional prediction performance.
-
-Thill et al. proposed the integration of a Temporal Convolution Network (TCN) with an autoencoder framework (AE) for the purpose of prediction-based anomaly detection. This approach involved replacing the dense layer design with a more powerful and adaptable Convolutional Neural Network (CNN) architecture. Dai et al. created the Graph-Augmented Normalizing Flow (GANF) by incorporating graph neural networks (GNNs) in order to exploit spatial feature correlations. The GANF model serves as a powerful tool in unsupervised learning, allowing for the exploration of underlying data patterns and tackling the problem of limited labeled data.
-
-Reconstruction-based techniques have garnered acclaim for their utilization of models such as Autoencoders (AE), LSTM-AE, and LSTM Variational Autoencoders (LSTM-VAE). These methods entail acquiring a hidden, reduced-dimensional representation to reconstruct the initial input, rendering them more suitable for detecting contextual and collective irregularities.
-
-Gilpin's study utilized anomaly detection through explanation (ADE) by implementing reasonableness monitors that relied on anomaly detection in the simulated environment of semi-autonomous cars. This work is a groundbreaking endeavor in the field of explanatory anomaly detection, specifically focusing on providing explanations at the system level.
-
-No work has been identified that combines both anomaly detection and Latent Logistic Regression (LLR) methods in the field of Internet of Things (IoT) and air quality monitoring. The majority of current systems for anomaly detection depend on either prediction-based or reconstruction-based techniques to identify abnormal behavior, but they lack the ability to provide thorough explanations or rationale. This paper aims to fill this void by proposing a hybrid methodology that merges prediction-based anomaly detection with LLMs to establish a reliable framework for generating explanations and reasoning in the domain of air quality monitoring in IoT devices. Therefore, the contribution for our proposed method are as follows:
-%% sampe sini
-
 Many researchers now use deep learning architecture for anomaly detection in time series due to its powerful data dependency modeling. There are two commonly used deep learning techniques: prediction-based approaches, and reconstruction-based approaches. Several prediction-based models have been developed, including the LSTM-AD that has excellent memory capabilities, and single-handedly performs anomaly detection without requiring any prior knowledge of temporal length. DeepLSTM, developed by Chauhan et al., also employs a LSTM recurrent network, offering benefits such as direct application to raw time series data, eliminating preprocessing steps. Hundmand et al.'s LSTM-NDT has superior predictive performance by integrating dynamic thresholding and anomaly scoring. Lastly, TCN-AE and GANF are used for prediction-based anomaly detection and spatial feature correlations respectively. 
 
 Reconstruction-based approaches, on the other hand, such as Autoencoders (AE), LSTM-AE, and LSTM Variational Autoencoders (LSTM-VAE), have also been acknowledged. Unlike prediction-based anomaly detection, these approaches involve recreating the original input through a latent low-dimension representation, ideal for capturing collective anomalies. 
@@ -183,17 +167,51 @@ Reconstruction-based approaches, on the other hand, such as Autoencoders (AE), L
 However, anomaly detection's integration with LLM in Internet of Things (IoT) and air quality monitoring is yet to be observed. Existing methods either rely heavily on prediction or reconstruction-based anomaly detection without providing comprehensive explanations. To fill this gap, the study introduces a hybrid approach combining prediction-based anomaly detection with LLMs within IoT systems' air quality monitoring context. 
 The contributions of our proposed method are as follows: 
 \begin{enumerate}
-\item The hybrid approach integrating ConvLSTM-DT and Fine-tuned GPT-4 that effectively generates anomaly reasoning and possible solutions. 
-\item The outlined method deploys the model in edge-cloud environments, accounting for seamless real-world edge-computing integrations. 
-\item To assess the anomaly detection performance, a comparative evaluation uses machine learning anomaly detection algorithms, including Isolation Forest (iForest), One-Class Support Vector Machine (OC-SVM), Histogram-Based Outlier Score (HBOS), and Local Outlier Factor (LOF), as benchmarks for the hybrid approach.
+\item The hybrid approach integrating ConvLSTM-DT and Fine-tuned GPT-4 that effectively generates anomaly reasoning and possible solutions.\item The outlined method deploys the model in edge-cloud environments, accounting for seamless real-world edge-computing integrations.\item To assess the anomaly detection performance, a comparative evaluation uses machine learning anomaly detection algorithms, including Isolation Forest (iForest), One-Class Support Vector Machine (OC-SVM), Histogram-Based Outlier Score (HBOS), and Local Outlier Factor (LOF), as benchmarks for the hybrid approach.
 \end{enumerate}
 \section{Proposed Method}\label{sec2}
 
 \subsection{Data Collection and Data Preprocessing}
-\subsection{ConvLSTM-PBNN}
-\subsection{Dynamic Thresholding}
-\subsection{GPT-4 Integration}
+\textbf{Jelasin data collection, data cleaning or missing data, feature selection, normalization}
 
+\subsection{ConvLSTM-PBNN}
+\textbf{Bang Krish Mohon bantuannya}
+
+\subsection{Dynamic Thresholding}
+To effectively monitor thousands of telemetry channels influenced by changing environmental conditions and command sequences, there's a critical need for a fast and unsupervised approach to detect anomalies in predicted values. While common methods like distance-based techniques are available, they often come with high computational costs, involving comparisons between each data point and a set of k neighbors. Another frequently employed method relies on the assumption of Gaussian distributions for past smoothed errors, which enables swift comparisons with concise representations of previous errors. However, this approach can face challenges when parametric assumptions are violated. 
+
+To address this issue, non-parametric dynamic thresholds proposed by Hundmand et al. play a crucial role. These non-parametric dynamic thresholds can be divided into three key processes: error and smoothing, threshold calculation, and anomaly scoring.Therefore, in this architecture we implemented this method as the anomaly detector.
+
+\begin{algorithm}
+\caption{Put your caption here}
+\begin{algorithmic}[1]
+
+\Procedure{Roy}{$a,b$}       \Comment{This is a test}
+    \State System Initialization
+    \State Read the value 
+    \If{$condition = True$}
+        \State Do this
+        \If{$Condition \geq 1$}
+        \State Do that
+        \ElsIf{$Condition \neq 5$}
+        \State Do another
+        \State Do that as well
+        \Else
+        \State Do otherwise
+        \EndIf
+    \EndIf
+
+    \While{$something \not= 0$}  \Comment{put some comments here}
+        \State $var1 \leftarrow var2$  \Comment{another comment}
+        \State $var3 \leftarrow var4$
+    \EndWhile  \label{roy's loop}
+\EndProcedure
+
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{GPT-4 Integration}
+GPT-4 is a useful large-scale model, but its general-purpose design may not fully cater to specific tasks, such as time-series anomaly detection. To enhance its specificity, GPT-4 can be fine-tuned with a custom dataset, improving accuracy and reasoning. This also allows for rapid deployment for tasks requiring immediate responses. Integrating Language Model (LLM) with anomaly detection involves examining data from each sensor using the ConvLSTM-DT algorithm. Detected anomalies trigger a simplified explanation, which is formatted into a prompt, sent to the cloud, and processed by the fine-tuned GPT-4. This produces understandable feedback and possible solutions for anomalies, providing operators with critical insights. Anomaly detection is executed at the edge for quick responses, while more computationally intensive LLM tasks are run in the cloud. This division optimizes efficiency and system performance.
 
 \section{Result and Discussion}\label{sec3}
 
